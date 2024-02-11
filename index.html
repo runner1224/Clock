@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .clock {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #333;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hour-hand,
+        .minute-hand,
+        .second-hand {
+            position: absolute;
+            background-color: #333;
+            transform-origin: bottom center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .hour-hand {
+            width: 6px;
+            height: 60px;
+            left: calc(50% - 3px);
+            bottom: 50%;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .minute-hand {
+            width: 4px;
+            height: 80px;
+            left: calc(50% - 2px);
+            bottom: 50%;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .second-hand {
+            width: 2px;
+            height: 90px;
+            left: calc(50% - 1px);
+            bottom: 50%;
+            background-color: red;
+        }
+
+        .center-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #333;
+            border-radius: 50%;
+            left: calc(50% - 6px);
+            bottom: calc(50% - 6px);
+        }
+
+        .digital-clock {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            top: calc(50% + 40px); /* 调整数字时钟的位置，添加间距 */
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="hour-hand"></div>
+        <div class="minute-hand"></div>
+        <div class="second-hand"></div>
+        <div class="center-dot"></div>
+    </div>
+
+    <div class="digital-clock"></div>
+
+    <script>
+        function rotateElement(element, angle) {
+            element.style.transform = `rotate(${angle}deg)`;
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const hourHand = document.querySelector('.hour-hand');
+            const minuteHand = document.querySelector('.minute-hand');
+            const secondHand = document.querySelector('.second-hand');
+
+            const hourAngle = (hours * 30) + (minutes * 0.5); // Each hour is 30 degrees, each minute is 0.5 degrees
+            const minuteAngle = (minutes * 6) + (seconds * 0.1); // Each minute is 6 degrees, each second is 0.1 degrees
+            const secondAngle = seconds * 6; // Each second is 6 degrees
+
+            rotateElement(hourHand, hourAngle);
+            rotateElement(minuteHand, minuteAngle);
+            rotateElement(secondHand, secondAngle);
+
+            const digitalClock = document.querySelector('.digital-clock');
+            digitalClock.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        setInterval(updateClock, 1000); // Update every second
+    </script>
+</body>
+
+</html>
